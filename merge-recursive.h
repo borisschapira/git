@@ -27,7 +27,7 @@ struct merge_options {
 	} detect_directory_renames;
 	int rename_limit;
 	int rename_score;
-	int show_rename_progress;
+	int show_rename_progress : 1;
 
 	/* xdiff-related options (patience, ignore whitespace, ours/theirs) */
 	long xdl_opts;
