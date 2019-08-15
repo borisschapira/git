@@ -3507,6 +3507,11 @@ int merge_recursive(struct merge_options *opt,
 	struct commit *merged_common_ancestors;
 	struct tree *mrtree;
 	int clean;
+	int num_merge_bases;
+	struct strbuf merge_base_abbrev = STRBUF_INIT;
+
+	if (!opt->call_depth)
+		assert(opt->ancestor == NULL);
 
 	if (show(opt, 4)) {
 		output(opt, 4, _("Merging:"));
@@ -3528,6 +3533,7 @@ int merge_recursive(struct merge_options *opt,
 			output_commit_title(opt, iter->item);
 	}
 
+	num_merge_bases = commit_list_count(ca);
 	merged_common_ancestors = pop_commit(&ca);
 	if (merged_common_ancestors == NULL) {
 		/* if there is no common ancestor, use an empty tree */
@@ -3568,10 +3574,23 @@ int merge_recursive(struct merge_options *opt,
 	if (!opt->call_depth)
 		repo_read_index(opt->repo);
 
-	opt->ancestor = "merged common ancestors";
+	switch (num_merge_bases) {
+	case 0:
+		opt->ancestor = "<empty tree>";
+		break;
+	case 1:
+		strbuf_add_unique_abbrev(&merge_base_abbrev,
+					 &merged_common_ancestors->object.oid,
+					 DEFAULT_ABBREV);
+		opt->ancestor = merge_base_abbrev.buf;
+		break;
+	default:
+		opt->ancestor = "merged common ancestors";
+	}
 	clean = merge_trees(opt, get_commit_tree(h1), get_commit_tree(h2),
 			    get_commit_tree(merged_common_ancestors),
 			    &mrtree);
+	strbuf_release(&merge_base_abbrev);
 	if (clean < 0) {
 		flush_output(opt);
 		return clean;
