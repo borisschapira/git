@@ -3592,8 +3592,11 @@ int merge_recursive(struct merge_options *opt,
 	default:
 		opt->ancestor = "merged common ancestors";
 	}
-	clean = merge_trees(opt, get_commit_tree(h1), get_commit_tree(h2),
-			    get_commit_tree(merged_common_ancestors),
+	clean = merge_trees(opt,
+			    repo_get_commit_tree(opt->repo, h1),
+			    repo_get_commit_tree(opt->repo, h2),
+			    repo_get_commit_tree(opt->repo,
+						 merged_common_ancestors),
 			    &mrtree);
 	strbuf_release(&merge_base_abbrev);
 	if (clean < 0) {
