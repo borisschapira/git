@@ -608,7 +608,7 @@ static struct cache_tree *cache_tree_find(struct cache_tree *it, const char *pat
 	return it;
 }
 
-int write_index_as_tree_internal(struct object_id *oid, struct index_state *index_state, int cache_tree_valid, int flags, const char *prefix)
+static int write_index_as_tree_internal(struct object_id *oid, struct index_state *index_state, int cache_tree_valid, int flags, const char *prefix)
 {
 	if (flags & WRITE_TREE_IGNORE_CACHE_TREE) {
 		cache_tree_free(&index_state->cache_tree);

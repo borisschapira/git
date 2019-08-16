@@ -3638,7 +3638,7 @@ static int merge_start(struct merge_options *opt, struct tree *head)
 	       opt->recursive_variant <= MERGE_VARIANT_THEIRS);
 
 	assert(opt->verbosity >= 0 && opt->verbosity <= 5);
-	assert(opt->buffer_output >= 0 && opt->buffer_output <= 2);
+	assert(opt->buffer_output <= 2);
 	assert(opt->obuf.len == 0);
 
 	assert(opt->priv == NULL);
