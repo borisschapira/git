@@ -22089,7 +22089,7 @@ msgstr "Réinitialiser la HEAD courante à l'état spécifié"
 
 #: command-list.h:156
 msgid "Restore working tree files"
-msgstr "restaurer les fichiers l'arbre de travail"
+msgstr "restaurer les fichiers de l'arbre de travail"
 
 #: command-list.h:157
 msgid "Revert some existing commits"
